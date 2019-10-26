@@ -1,0 +1,73 @@
+
+<div class="container">
+  <form [formGroup]="registerationForm" (ngSubmit)="onSubmit()">
+    <fieldset class="form-group">
+    <label for="first_name">First Name</label>
+    <input type="text" class="form-control" id="first_name" formControlName="first_name" name="first_name">
+    </fieldset>
+    <fieldset class="form-group">
+    <label for="last_name">Last Name</label>
+    <input type="text" class="form-control" id="last_name" formControlName="last_name" name="last_name">
+    </fieldset>
+    <fieldset class="form-group">
+    <label for="password">Password</label>
+    <input type="text" class="form-control" id="password" formControlName="password" name="password">
+    </fieldset>
+    <fieldset class="form-group">
+    <label for="confirmpassword">Re-Type Password</label>
+    <input type="text" class="form-control" id="confirmpassword" name="confirmpassword" formControlName="confirmpassword" [ngClass]="{ 'is-invalid': submitForm && registerationForm.controls.confirmpassword.errors }" >
+    <span *ngIf="submitForm && registerationForm.controls['confirmpassword'].errors.required">Please Enter ConfirmPassword</span>
+    <span *ngIf="registerationForm.controls['confirmpassword'].touched && registerationForm.controls['confirmpassword'].errors.mustMatch">confirmPassword not match with password</span>
+    </fieldset>
+    <fieldset class="form-group">
+    <label for="email">Email Addr</label>
+    <input type="text" class="form-control" id="email" name="email" formControlName="email">
+    </fieldset>
+    <fieldset class="form-group">
+      <label for="contactno">Mobile No</label>
+      <input type="text" class="form-control" id="contactno" name="contactno" formControlName="contactno">
+    </fieldset>
+    <fieldset class="form-group">
+      <h6>Gender</h6>
+      <div class="form-check-inline" *ngFor="let data of genderData">
+        <label class="form-check-label">
+          <input type="radio" class="form-check-input" name="gender" formControlName="gender">{{data|titlecase}}
+        </label>
+      </div>
+      <span class="alert alert-danger" *ngIf="submitForm && registerationForm.controls['gender'].errors.required">Please select Gender</span>
+    </fieldset>
+    <fieldset>
+      
+      <div class="pt-2 pb-2">
+          <button type="button" class="btn btn-info btn-sm m-2 " [disabled]="(registerationForm.get('skillset').invalid||registerationForm.errors?.unique)" title="Add Skill" (click)="addSkillSet()"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+          <span class="" *ngIf="registerationForm.errors?.unique">Skill should not duplicate</span>
+      </div>
+    </fieldset>
+    <div formArrayName="skillset" *ngFor="let item of registerationForm.get('skillset')['controls']; let i = index;">
+      <fieldset class="form-group bg-light p-2" [formGroupName]="i">
+          <div class="float-left">
+          <select class="form-control" formControlName="skill" name="skill">
+            <option value="">Select Skill</option> 
+            <option *ngFor="let skillData of skillsData;" value="{{skillData.id}}">{{skillData.name}}</option>
+            </select>
+          </div>
+            <div class="ml-4 float-left">
+            <select class="form-control" formControlName="proficiency" name="proficiency">
+                <option value="">Select Skill  Type</option> 
+                <option *ngFor="let proData of proficiencyData;"  value="{{proData.id}}">{{proData.name}}</option>
+            </select>
+          </div>
+          <div class="ml-4 float-right">
+            <button class="btn btn-danger btn-sm" *ngIf="registerationForm.get('skillset').length>1" (click)="removeSkillSet(i)" title="Remove Skill">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+          </div>
+      </fieldset>
+      <hr *ngIf="i>0">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+

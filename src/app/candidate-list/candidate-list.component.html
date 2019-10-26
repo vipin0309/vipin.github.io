@@ -1,0 +1,43 @@
+<div class="container">
+  
+    <div class="card">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+          <div class="page-content">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search by tag" [(ngModel)]="searchTerm"/>
+            </div>
+            <form [formGroup]="form">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr class="bg-primary">
+                      <th><input type="checkbox" name="selectorder" (click)="onSelect($event)"></th>
+                      <th>Name</th>
+                      <th>Skill</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                        <tr formArrayName="orders" *ngFor="let order of form.controls.orders['controls']; let i = index">
+                            <td><input type="checkbox" [formControlName]="i" [value]="ordersData[i]?.id"></td>
+                            <td> {{ordersData[i]?.name}}</td>
+                            <td> {{ordersData[i]?.skill}}</td>
+                        </tr>
+                  </tbody>
+                </table>
+              </form>
+              <div class="d-flex justify-content-end ">
+                  <button type="button" class="btn btn-primary" (click)="onSubmitForm()">Submit</button>
+              </div>
+            </div>
+         </div>
+        <div class="card-footer">
+          <app-child></app-child>
+          <h4>hello World</h4>
+          <span>Candidate</span>
+          <div [innerHtml]="getData()"></div>
+          </div>
+      </div>
+</div>  
+
+
+
